@@ -19,3 +19,6 @@ vector<string> generate_word_ladder(const string &begin_word,
 void load_words(set<string> &word_list, const string &file_name);
 void print_word_ladder(const vector<string> &ladder);
 void verify_word_ladder();
+
+// Helper Functions
+int levenshtein_distance(const std::string &s1, const std::string &s2);
