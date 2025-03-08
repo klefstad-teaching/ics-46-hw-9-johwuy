@@ -39,6 +39,6 @@ if (GTest_FOUND)
     ${LADDER_SRC_FILES}
   )
   target_include_directories(student_gtests PRIVATE src ${GTEST_INCLUDE_DIRS})
-  target_link_libraries(student_gtests PRIVATE ${GTEST_LIBRARIES})
+  target_link_libraries(student_gtests PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 endif()
 
