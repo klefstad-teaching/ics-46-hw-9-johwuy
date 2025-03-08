@@ -1,7 +1,9 @@
 #include "ladder.h"
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
+#include <fstream>
 #include <queue>
 #include <set>
 #include <string>
@@ -82,8 +84,44 @@ vector<string> generate_word_ladder(const string &begin_word,
         }
     }
 
-    return {};
+    return {}; // Empty vector represents no word list found.
 }
-void load_words(set<string> &word_list, const string &file_name) {}
-void print_word_ladder(const vector<string> &ladder) {}
-void verify_word_ladder() {}
+void load_words(set<string> &word_list, const string &file_name) {
+    ifstream file(file_name);
+    std::string word;
+
+    if (!file) {
+        std::cerr << "Error: Unable to open file: " << file_name << endl;
+        return;
+    }
+
+    while (file >> word) {
+        word_list.insert(word);
+    }
+
+    file.close();
+}
+void print_word_ladder(const vector<string> &ladder) {
+    for (size_t i = 0; i < ladder.size(); ++i) {
+        cout << ladder[i];
+        if (i < ladder.size() - 1) {
+            cout << " → "; // Arrow between words
+        }
+    }
+}
+
+#define my_assert(e)                                                           \
+    {                                                                          \
+        std::cout << #e << ((e) ? " passed" : " failed") << std::endl;         \
+    }
+void verify_word_ladder() {
+    std::set<string> word_list;
+    load_words(word_list, "words.txt");
+
+    assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
+    assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
+    assert(generate_word_ladder("code", "data", word_list).size() == 6);
+    assert(generate_word_ladder("work", "play", word_list).size() == 6);
+    assert(generate_word_ladder("sleep", "awake", word_list).size() == 8);
+    assert(generate_word_ladder("car", "cheat", word_list).size() == 4);
+}
