@@ -59,6 +59,8 @@ bool is_adjacent(const string &word1, const string &word2) {
     }
     return edit_distance_within(word1, word2, 1);
 }
+
+// TODO: Need to do optimization (Go to TA Office hours)
 vector<string> generate_word_ladder(const string &begin_word,
                                     const string &end_word,
                                     const set<string> &word_list) {
@@ -105,7 +107,7 @@ void print_word_ladder(const vector<string> &ladder) {
     for (size_t i = 0; i < ladder.size(); ++i) {
         cout << ladder[i];
         if (i < ladder.size() - 1) {
-            cout << " → "; // Arrow between words
+            cout << " -> "; // Arrow between words
         }
     }
 }
