@@ -72,7 +72,7 @@ vector<string> generate_word_ladder(const string &begin_word,
         std::vector<std::string> ladder = ladder_queue.front();
         ladder_queue.pop();
         std::string last_word = ladder.back();
-        for (std::string word : word_list) {
+        for (const std::string &word : word_list) {
             if (!visited.contains(word) && is_adjacent(last_word, word)) {
                 visited.insert(word);
                 std::vector<std::string> new_ladder = ladder;
@@ -87,15 +87,15 @@ vector<string> generate_word_ladder(const string &begin_word,
     return {}; // Empty vector represents no word list found.
 }
 void load_words(set<string> &word_list, const string &file_name) {
-    ifstream file(file_name);
+    std::ifstream file(file_name);
     std::string word;
 
     if (!file) {
-        std::cerr << "Error: Unable to open file: " << file_name << endl;
+        std::cerr << "Error: Unable to open file: " << file_name << std::endl;
         return;
     }
 
-    while (file >> word) {
+    while (std::getline(file, word)) {
         word_list.insert(word);
     }
 
@@ -115,9 +115,8 @@ void print_word_ladder(const vector<string> &ladder) {
         std::cout << #e << ((e) ? " passed" : " failed") << std::endl;         \
     }
 void verify_word_ladder() {
-    std::set<string> word_list;
-    load_words(word_list, "words.txt");
-
+    std::set<std::string> word_list;
+    load_words(word_list, "src/words.txt");
     assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
     assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
     assert(generate_word_ladder("code", "data", word_list).size() == 6);

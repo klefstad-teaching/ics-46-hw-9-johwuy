@@ -3,6 +3,47 @@
 #include "dijkstras.h"
 #include "ladder.h"
 
+// ✅ Test when words are adjacent (1 edit away)
+TEST(IsAdjacentTest, AdjacentWords) {
+    EXPECT_TRUE(is_adjacent("cat", "bat"));  // 1 substitution
+    EXPECT_TRUE(is_adjacent("cat", "cot"));  // 1 substitution
+    EXPECT_TRUE(is_adjacent("cat", "cats")); // 1 insertion
+    EXPECT_TRUE(is_adjacent("cats", "cat")); // 1 deletion
+}
+
+// ✅ Test when words are not adjacent
+TEST(IsAdjacentTest, NonAdjacentWords) {
+    EXPECT_FALSE(is_adjacent("cat", "dog"));     // 3 substitutions
+    EXPECT_FALSE(is_adjacent("cat", "cartoon")); // More than 1 edit
+    EXPECT_FALSE(is_adjacent("cat", "ratting")); // More than 1 edit
+}
+
+// ✅ Test when words are identical (should return false)
+TEST(IsAdjacentTest, IdenticalWords) {
+    EXPECT_FALSE(is_adjacent("cat", "cat")); // Same word
+    EXPECT_FALSE(is_adjacent("hello", "hello"));
+}
+
+// ✅ Test words with more than 1 length difference (should return false)
+TEST(IsAdjacentTest, LengthDifferenceTooLarge) {
+    EXPECT_FALSE(is_adjacent("cat", "cattle"));   // Length diff > 1
+    EXPECT_FALSE(is_adjacent("play", "playing")); // Length diff > 1
+}
+
+// ✅ Edge Cases
+TEST(IsAdjacentTest, EdgeCases) {
+    EXPECT_TRUE(is_adjacent("a", "b"));  // 1 substitution
+    EXPECT_TRUE(is_adjacent("a", "ab")); // 1 insertion
+    EXPECT_TRUE(is_adjacent("ab", "a")); // 1 deletion
+}
+
+// ✅ Large Words Test
+TEST(IsAdjacentTest, LargeWords) {
+    EXPECT_TRUE(is_adjacent("abcdefgh", "abcdefg"));   // 1 deletion
+    EXPECT_TRUE(is_adjacent("abcdefgh", "abcdxfgh"));  // 1 substitution
+    EXPECT_FALSE(is_adjacent("abcdefgh", "abcdxygh")); // 2 substitutions
+}
+
 TEST(LevenshteinDistanceTest, NoEdit) {
     EXPECT_EQ(levenshtein_distance("cat", "cat"), 0);
 }
@@ -32,7 +73,8 @@ TEST(LevenshteinDistanceTest, TwoEditDelete) {
 }
 
 TEST(LevenshteinDistanceTest, MixedEdits) {
-    EXPECT_EQ(levenshtein_distance("kitten", "sitting"), 3); // Expected edits: k→s, e→i, +g
+    EXPECT_EQ(levenshtein_distance("kitten", "sitting"),
+              3); // Expected edits: k→s, e→i, +g
 }
 
 TEST(LevenshteinDistanceTest, EmptyStrings) {
@@ -49,7 +91,9 @@ TEST(LevenshteinDistanceTest, LargeDifference) {
 }
 
 TEST(LevenshteinDistanceTest, IdenticalLongStrings) {
-    EXPECT_EQ(levenshtein_distance("longwordwithmorecharacters", "longwordwithmorecharacters"), 0);
+    EXPECT_EQ(levenshtein_distance("longwordwithmorecharacters",
+                                   "longwordwithmorecharacters"),
+              0);
 }
 
 TEST(LevenshteinDistanceTest, CaseSensitivity) {
@@ -61,5 +105,6 @@ TEST(LevenshteinDistanceTest, ReversedStrings) {
 }
 
 TEST(LevenshteinDistanceTest, LongStringEdits) {
-    EXPECT_EQ(levenshtein_distance("abcdefghijk", "abcxdefghyyz"), 4); // c→x, h→y, +y, +z
+    EXPECT_EQ(levenshtein_distance("abcdefghijk", "abcxdefghyyz"),
+              4); // c→x, h→y, +y, +z
 }
