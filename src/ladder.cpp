@@ -37,6 +37,8 @@ int levenshtein_distance(const std::string &str1, const std::string &str2, int d
 
             curr[j + 1] =
                 std::min({deletionCost, insertionCost, substitutionCost});
+
+            min_in_row  = std::min(min_in_row, curr[j + 1]); // Updates min_in_row as you traverse
         }
         std::swap(prev, curr);
 
@@ -59,6 +61,10 @@ bool is_adjacent(const string &word1, const string &word2) {
     int len_diff = std::abs((int)word1.length() - (int)word2.length());
     // If the length difference is greater than 1, or the words are the same,
     // return false
+    if  (word1 == word2) {
+        return true;
+    }
+
     if (len_diff > 1) {
         return false;
     }
