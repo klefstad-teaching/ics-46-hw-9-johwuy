@@ -11,7 +11,8 @@
 #include <utility>
 #include <vector>
 
-int levenshtein_distance(const std::string &str1, const std::string &str2, int d) {
+int levenshtein_distance(const std::string &str1, const std::string &str2,
+                         int d) {
     int len_str1 = str1.length();
     int len_str2 = str2.length();
     std::vector<int> prev(len_str2 + 1);
@@ -27,17 +28,19 @@ int levenshtein_distance(const std::string &str1, const std::string &str2, int d
         for (int j = 0; j < len_str2; ++j) {
             int deletionCost = prev[j + 1] + 1;
             int insertionCost = curr[j] + 1;
-            int substitutionCost = str1[i] == str2[j] ?  prev[j] :  prev[j] + 1;
+            int substitutionCost = str1[i] == str2[j] ? prev[j] : prev[j] + 1;
 
             curr[j + 1] =
                 std::min({deletionCost, insertionCost, substitutionCost});
 
-            min_in_row  = std::min(min_in_row, curr[j + 1]); // Updates min_in_row as you traverse
+            min_in_row = std::min(
+                min_in_row, curr[j + 1]); // Updates min_in_row as you traverse
         }
         std::swap(prev, curr);
 
         if (min_in_row > d) {
-            return d + 1; // Early exit if the minimum value in the row exceeds n
+            return d +
+                   1; // Early exit if the minimum value in the row exceeds n
         }
     }
     return prev[len_str2];
@@ -49,13 +52,24 @@ void error(string word1, string word2, string msg) {
 }
 bool edit_distance_within(const std::string &str1, const std::string &str2,
                           int d) {
-    return levenshtein_distance(str1, str2, d) <= d;
+    // return levenshtein_distance(str1, str2, d) <= d;
+    int shortest_length = std::min(str1.length(), str2.length());
+    int diff_count = 0;
+    for (size_t i = 0; i < shortest_length; ++i) {
+        if (str1[i] != str2[i]) {
+            ++diff_count;
+            if (diff_count > 1)
+                return false;
+        }
+    }
+    diff_count +=std::abs((int)str1.length() - (int)str2.length()); // Accounds for insert and delete
+    return diff_count <= d;
 }
 bool is_adjacent(const string &word1, const string &word2) {
     int len_diff = std::abs((int)word1.length() - (int)word2.length());
     // If the length difference is greater than 1, or the words are the same,
     // return false
-    if  (word1 == word2) {
+    if (word1 == word2) {
         return true;
     }
 
@@ -69,6 +83,9 @@ bool is_adjacent(const string &word1, const string &word2) {
 vector<string> generate_word_ladder(const string &begin_word,
                                     const string &end_word,
                                     const set<string> &word_list) {
+
+    if (begin_word == end_word || !word_list.contains(end_word))
+        return {};
 
     std::queue<std::vector<std::string>> ladder_queue;
     ladder_queue.push({begin_word});
