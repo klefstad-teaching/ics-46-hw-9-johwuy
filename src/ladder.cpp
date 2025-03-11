@@ -54,7 +54,7 @@ bool is_adjacent(const string &word1, const string &word2) {
     int len_diff = std::abs((int)word1.length() - (int)word2.length());
     // If the length difference is greater than 1, or the words are the same,
     // return false
-    if (len_diff > 1 || word1 == word2) {
+    if (len_diff > 1) {
         return false;
     }
     return edit_distance_within(word1, word2, 1);
