@@ -25,7 +25,7 @@ std::vector<int> dijkstra_shortest_path(const Graph &G, int source,
         }
         visited[u] = true;
 
-        for (Edge e : G[u]) {
+        for (const Edge& e : G[u]) {
             int v = e.dst;
             int w = e.weight;
 
@@ -39,17 +39,9 @@ std::vector<int> dijkstra_shortest_path(const Graph &G, int source,
 
     return distance;
 }
-std::vector<int> extract_shortest_path(const std::vector<int> &distances,
+std::vector<int> extract_shortest_path(const std::vector<int> & /*distances*/,
                                        const std::vector<int> &previous,
                                        int destination) {
-
-    // Check if destination is within 0 to n -1, where n is the number of nodes
-    // Also check if node is reachable.
-    if (destination < 0 || destination >= distances.size() ||
-        distances[destination] == INF) {
-        return {-1};
-    }
-
     std::vector<int> path;
     for (int iter = destination; iter != -1; iter = previous[iter]) {
         path.push_back(iter);
@@ -63,7 +55,5 @@ void print_path(const vector<int> &v, int total) {
     for (size_t i = 0; i < v.size(); ++i) {
         std::cout << v[i] << " ";
     }
-    std::cout << '\n';
-
-    std::cout << "Total cost is " << total << '\n';
+    std::cout  << '\n' << "Total cost is " << total << '\n';
 }
