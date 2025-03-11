@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-int levenshtein_distance(const std::string &str1, const std::string &str2) {
+int levenshtein_distance(const std::string &str1, const std::string &str2, int d) {
     int len_str1 = str1.length();
     int len_str2 = str2.length();
     std::vector<int> prev(len_str2 + 1);
@@ -22,6 +22,7 @@ int levenshtein_distance(const std::string &str1, const std::string &str2) {
 
     for (int i = 0; i < len_str1; ++i) {
         curr[0] = i + 1;
+        int min_in_row = curr[0];
 
         for (int j = 0; j < len_str2; ++j) {
             int deletionCost = prev[j + 1] + 1;
@@ -38,6 +39,10 @@ int levenshtein_distance(const std::string &str1, const std::string &str2) {
                 std::min({deletionCost, insertionCost, substitutionCost});
         }
         std::swap(prev, curr);
+
+        if (min_in_row > d) {
+            return d + 1; // Early exit if the minimum value in the row exceeds n
+        }
     }
     return prev[len_str2];
 }
@@ -48,7 +53,7 @@ void error(string word1, string word2, string msg) {
 }
 bool edit_distance_within(const std::string &str1, const std::string &str2,
                           int d) {
-    return levenshtein_distance(str1, str2) <= d;
+    return levenshtein_distance(str1, str2, d) <= d;
 }
 bool is_adjacent(const string &word1, const string &word2) {
     int len_diff = std::abs((int)word1.length() - (int)word2.length());
