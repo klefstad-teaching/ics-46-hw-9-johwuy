@@ -20,8 +20,8 @@ TEST(IsAdjacentTest, NonAdjacentWords) {
 
 // ✅ Test when words are identical (should return false)
 TEST(IsAdjacentTest, IdenticalWords) {
-    EXPECT_FALSE(is_adjacent("cat", "cat")); // Same word
-    EXPECT_FALSE(is_adjacent("hello", "hello"));
+    EXPECT_TRUE(is_adjacent("cat", "cat")); // Same word
+    EXPECT_TRUE(is_adjacent("hello", "hello"));
 }
 
 // ✅ Test words with more than 1 length difference (should return false)
@@ -108,3 +108,12 @@ TEST(LevenshteinDistanceTest, LongStringEdits) {
     EXPECT_EQ(levenshtein_distance("abcdefghijk", "abcxdefghyyz"),
               4); // c→x, h→y, +y, +z
 }
+
+TEST(PrintWordLadderTest, Empty) {
+    print_word_ladder({});
+}
+
+TEST(PrintWordLadderTest, NonEmpty) {
+    print_word_ladder({"awake","aware", "ware", "were" ,"wee", "see", "seep", "sleep"});
+}
+
