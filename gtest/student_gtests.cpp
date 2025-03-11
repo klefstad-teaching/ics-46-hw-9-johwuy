@@ -44,6 +44,10 @@ TEST(IsAdjacentTest, LargeWords) {
     EXPECT_FALSE(is_adjacent("abcdefgh", "abcdxygh")); // 2 substitutions
 }
 
+TEST(IsAdjacentTest, random) {
+    EXPECT_TRUE(is_adjacent("apple", "bapple"));   // 1 deletion
+}
+
 // TEST(LevenshteinDistanceTest, NoEdit) {
 //     EXPECT_EQ(levenshtein_distance("cat", "cat"), 0);
 // }

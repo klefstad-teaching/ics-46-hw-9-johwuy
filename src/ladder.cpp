@@ -52,18 +52,20 @@ void error(string word1, string word2, string msg) {
 }
 bool edit_distance_within(const std::string &str1, const std::string &str2,
                           int d) {
-    // return levenshtein_distance(str1, str2, d) <= d;
-    int shortest_length = std::min(str1.length(), str2.length());
-    int diff_count = 0;
-    for (size_t i = 0; i < shortest_length; ++i) {
-        if (str1[i] != str2[i]) {
-            ++diff_count;
-            if (diff_count > 1)
-                return false;
-        }
-    }
-    diff_count +=std::abs((int)str1.length() - (int)str2.length()); // Accounds for insert and delete
-    return diff_count <= d;
+    return levenshtein_distance(str1, str2, d) <= d;
+    // int shortest_length = std::min(str1.length(), str2.length());
+    // int diff_count = 0;
+    // for (size_t i = 0; i < shortest_length; ++i) {
+    //     if (str1[i] != str2[i]) {
+    //         ++diff_count;
+    //         if (diff_count > 1)
+    //             return false;
+    //     }
+    // }
+    // diff_count +=
+    //     std::abs((int)str1.length() -
+    //              (int)str2.length()); // Accounds for insert and delete
+    // return diff_count <= d;
 }
 bool is_adjacent(const string &word1, const string &word2) {
     int len_diff = std::abs((int)word1.length() - (int)word2.length());
@@ -122,7 +124,6 @@ void load_words(set<string> &word_list, const string &file_name) {
     while (std::getline(file, word)) {
         word_list.insert(word);
     }
-
     file.close();
 }
 void print_word_ladder(const vector<string> &ladder) {
