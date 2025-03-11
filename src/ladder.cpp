@@ -27,13 +27,7 @@ int levenshtein_distance(const std::string &str1, const std::string &str2, int d
         for (int j = 0; j < len_str2; ++j) {
             int deletionCost = prev[j + 1] + 1;
             int insertionCost = curr[j] + 1;
-            int substitutionCost;
-
-            if (str1[i] == str2[j]) {
-                substitutionCost = prev[j];
-            } else {
-                substitutionCost = prev[j] + 1;
-            }
+            int substitutionCost = str1[i] == str2[j] ?  prev[j] :  prev[j] + 1;
 
             curr[j + 1] =
                 std::min({deletionCost, insertionCost, substitutionCost});
@@ -119,7 +113,7 @@ void print_word_ladder(const vector<string> &ladder) {
         std::cout << "No word ladder found." << std::endl;
         return;
     }
-
+    std::cout << "Word ladder found: ";
     for (size_t i = 0; i < ladder.size(); ++i) {
         std::cout << ladder[i] << " ";
     }
