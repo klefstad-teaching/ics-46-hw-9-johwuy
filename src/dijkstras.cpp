@@ -9,7 +9,7 @@ std::vector<int> dijkstra_shortest_path(const Graph &G, int source,
     vector<int> distance(n, INF);
 
     vector<bool> visited(n, false);
-
+    previous.resize(n, -1);  // To be safe.
     using pII = pair<int, int>;
     priority_queue<pII, vector<pII>, greater<pII>> pq;
 
