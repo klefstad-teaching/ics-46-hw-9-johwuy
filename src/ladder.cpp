@@ -115,10 +115,7 @@ void print_word_ladder(const vector<string> &ladder) {
     }
 
     for (size_t i = 0; i < ladder.size(); ++i) {
-        std::cout << ladder[i];
-        if (i < ladder.size() - 1) {
-            std::cout << " ";
-        }
+        std::cout << ladder[i] << " ";
     }
     std::cout << std::endl;
 }
